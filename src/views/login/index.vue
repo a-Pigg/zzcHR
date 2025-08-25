@@ -16,8 +16,7 @@
             <el-input
               type="text"
               placeholder="请输入手机号"
-              clearable
-              v-model="ruleForm.pass"
+              v-model="ruleForm.phone"
             ></el-input>
           </el-form-item>
           <el-form-item prop="pass" >
@@ -25,15 +24,14 @@
               type="password"
               placeholder="请输入密码"
               v-model="ruleForm.pass"
-              clearable
               show-password
             ></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-checkbox label="用户平台使用协议" name="type"></el-checkbox>
+          <el-form-item prop="isAgree">
+            <el-checkbox label="用户平台使用协议" name="type" v-model="ruleForm.isAgree"></el-checkbox>
           </el-form-item>
           <el-form-item>
-            <el-button style="width:350px" type="primary" @click="submitForm('ruleForm')">登录</el-button>
+            <el-button style="width:350px;" type="primary" @click="submitForm('ruleForm')">登录</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -54,23 +52,34 @@ export default {
         callback();
       }
     };
-    var validatePass2 = (rule, value, callback) => {
+    let validatePhone = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("两次输入密码不一致!"));
+        callback(new Error("请输入手机号"));
       } else {
-        callback();
+        let pattern = /^(?:(?:\+|00)86)?1[3-9]\d{9}$/
+        pattern.test(value) ? callback() : callback(new Error("手机号格式不正确"));
       }
     };
     return {
       ruleForm: {
         phone: "",
         pass: "",
+        isAgree : false,
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        // phone: [{ required: true, trigger: "blur", message:'请输入手机号' },{
+        //   pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
+        //   message: "手机号格式不正确",
+        //   trigger: 'blur'
+        // }],
+        phone: [{ required: true, trigger: "blur", message:'请输入手机号' },{ validator: validatePhone, trigger: "blur"}],
+        pass: [{ required: true, trigger: "blur", message:'请输入密码' },{ min: 6, max: 16, message: '密码长度要在 6 到 16 之间', trigger: 'blur' }],
+        isAgree: [{ validator: (rule, value, callback) =>{
+          //rule：校验规则
+          //value：校验的值
+          //callback：函数 - promise resolve reject   callback() callback(newError(错误信息))
+          value ? callback() : callback(new Error('您必须勾选用户使用协议'))
+        }, trigger: "blur"}],
       },
     };
   },
