@@ -36,9 +36,11 @@
         </el-form>
       </el-card>
     </div>
+    <!-- <el-button type="primary" @click="getInfo">点我</el-button> -->
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'Login',
   data() {
@@ -84,10 +86,15 @@ export default {
     };
   },
   methods: {
+    getInfo(){
+      console.log(this.$store.state.user.token)
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //验证通过，开始登录
           alert("submit!");
+          this.$store.dispatch('user/login',this.ruleForm)
         } else {
           console.log("error submit!!");
           return false;
@@ -95,6 +102,17 @@ export default {
       });
     },
   },
+  mounted(){
+    axios({
+      // url:'https://heimahr.itheima.net/api/sys/login',
+      url:'/api/sys/login', //本地会自动拼接 http://localhost:9528/api/sys/login
+      method:'post',
+      data:{
+        mobile:'13912345678',
+        password:'123456'
+      }
+    })
+  }
 };
 </script>
 
