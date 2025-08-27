@@ -41,6 +41,7 @@
 </template>
 <script>
 import axios from 'axios'
+import service from '@/utils/request';
 export default {
   name: 'Login',
   data() {
@@ -103,13 +104,23 @@ export default {
     },
   },
   mounted(){
-    axios({
-      // url:'https://heimahr.itheima.net/api/sys/login',
-      url:'/api/sys/login', //本地会自动拼接 http://localhost:9528/api/sys/login
+    // axios({
+    //   // url:'https://heimahr.itheima.net/api/sys/login',
+    //   url:'/api/sys/login', //本地会自动拼接 http://localhost:9528/api/sys/login
+    //   method:'post',
+    //   data:{
+    //     mobile:'13912345678',
+    //     password:'123456'
+    //   }
+    // }).then(res=>{
+    //   console.log(res)
+    // })
+    service({
+      url:'/sys/login',
       method:'post',
       data:{
-        mobile:'13912345678',
-        password:'123456'
+        mobile:'13800000002',
+        password:'itHeiMa@20250827' //hm#qd@23!
       }
     })
   }

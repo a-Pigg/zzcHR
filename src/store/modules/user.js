@@ -104,9 +104,6 @@ const actions = {
     // if(!getToken('userToken')){
     //   console.log('调用登录接口')
       context.commit('setUserToken', '123456')
-    // }else{
-    //   console.log('免登录')
-    // }
   }
 }
 
