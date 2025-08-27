@@ -88,34 +88,44 @@
 //   }
 // }
 //#endregion
-import { login } from "@/api/user"
+import { getUserInfoAPI, login } from "@/api/user"
 import { getToken, removeToken, setToken } from "@/utils/auth"
 
 const state = {
-  token : getToken()
+  token: getToken(),
+  userInfo: {},   //存储用户基本资料状态
 }
 
 const actions = {
 
-  async login(context,data){
-    console.log('登录',data)
+  async login(context, data) {
+    console.log('登录', data)
     //todo: 调用登录接口
     let resData = await login(data)
     context.commit('setUserToken', resData)
+  },
+
+  async getUserInfo(context, data) {
+    let resData = await getUserInfoAPI()
+    console.log('获取用户资料', resData)
+    context.commit('setUserInfo', resData)
   }
 }
 
 const mutations = {
-  setUserToken(state, token){
+  setUserToken(state, token) {
     state.token = token
     //同步到缓存
     // localStorage.setItem('userToken', token)
     setToken(token)
   },
-  removeUserToken(state, token){
+  removeUserToken(state, token) {
     state.token = null
     removeToken()
-  }
+  },
+  setUserInfo(state, data) {
+    state.userInfo = data
+  },
 }
 
 export default {

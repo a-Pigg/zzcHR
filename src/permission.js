@@ -77,7 +77,7 @@ NProgress.configure({ showSpinner: false }) // NProgress Configuration
 //白名单
 const whiteList = ['/login','/404'] // no redirect whitelist
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   //开启进度条
   NProgress.start()
 
@@ -94,6 +94,13 @@ router.beforeEach((to, from, next) => {
       //自己跳自己，不会走全局后置守卫，手动关闭进度条
       NProgress.done()
     }else{
+      //判断是否获取了用户资料
+      let userId = store.getters.userId
+      console.log('ddddddddddddddddddddddddd',userId)
+      //没有获取到用户资料
+      if(!userId){
+        await store.dispatch('user/getUserInfo')
+      }
       next()
     }
   }else{//没有token——未过

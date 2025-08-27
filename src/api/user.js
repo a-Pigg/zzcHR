@@ -35,3 +35,10 @@ export function login(data) {
   })
 }
 
+//获取用户基本资料
+export function getUserInfoAPI() {
+  return request({
+    url: '/sys/profile',
+    method: 'get',
+  })
+}
