@@ -12,18 +12,18 @@
           ref="ruleForm"
           class="demo-ruleForm"
         >
-          <el-form-item prop="phone">
+          <el-form-item prop="mobile">
             <el-input
               type="text"
               placeholder="请输入手机号"
-              v-model="ruleForm.phone"
+              v-model="ruleForm.mobile"
             ></el-input>
           </el-form-item>
-          <el-form-item prop="pass" >
+          <el-form-item prop="password" >
             <el-input
               type="password"
               placeholder="请输入密码"
-              v-model="ruleForm.pass"
+              v-model="ruleForm.password"
               show-password
             ></el-input>
           </el-form-item>
@@ -42,6 +42,7 @@
 <script>
 import axios from 'axios'
 import service from '@/utils/request';
+import dayjs from 'dayjs'
 export default {
   name: 'Login',
   data() {
@@ -55,7 +56,7 @@ export default {
         callback();
       }
     };
-    let validatePhone = (rule, value, callback) => {
+    let validatemobile = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入手机号"));
       } else {
@@ -65,18 +66,19 @@ export default {
     };
     return {
       ruleForm: {
-        phone: "",
-        pass: "",
-        isAgree : false,
+        mobile: process.env.NODE_ENV === 'development' ? "13800000002" : '',
+        password: process.env.NODE_ENV === 'development' ?'itHeiMa@' + dayjs(new Date()).format('YYYYMMDD') : '',
+        isAgree : process.env.NODE_ENV === 'development',
       },
+      
       rules: {
-        // phone: [{ required: true, trigger: "blur", message:'请输入手机号' },{
+        // mobile: [{ required: true, trigger: "blur", message:'请输入手机号' },{
         //   pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
         //   message: "手机号格式不正确",
         //   trigger: 'blur'
         // }],
-        phone: [{ required: true, trigger: "blur", message:'请输入手机号' },{ validator: validatePhone, trigger: "blur"}],
-        pass: [{ required: true, trigger: "blur", message:'请输入密码' },{ min: 6, max: 16, message: '密码长度要在 6 到 16 之间', trigger: 'blur' }],
+        mobile: [{ required: true, trigger: "blur", message:'请输入手机号' },{ validator: validatemobile, trigger: "blur"}],
+        password: [{ required: true, trigger: "blur", message:'请输入密码' },{ min: 6, max: 16, message: '密码长度要在 6 到 16 之间', trigger: 'blur' }],
         isAgree: [{ validator: (rule, value, callback) =>{
           //rule：校验规则
           //value：校验的值
@@ -91,11 +93,13 @@ export default {
       console.log(this.$store.state.user.token)
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
           //验证通过，开始登录
-          alert("submit!");
-          this.$store.dispatch('user/login',this.ruleForm)
+          // alert("submit!");
+          await this.$store.dispatch('user/login',this.ruleForm)
+          //跳转主页
+          this.$router.push({path : '/' })
         } else {
           console.log("error submit!!");
           return false;
@@ -115,15 +119,16 @@ export default {
     // }).then(res=>{
     //   console.log(res)
     // })
-    alert(process.env.NODE_ENV)
-    service({
-      url:'/sys/login',
-      method:'post',
-      data:{
-        mobile:'13800000002',
-        password:'itHeiMa@20250827' //hm#qd@23!
-      }
-    })
+    // alert(process.env.NODE_ENV)
+    // service({
+    //   url:'/sys/login',
+    //   method:'post',
+    //   data:{
+    //     mobile:'13800000002',
+    //     password:'itHeiMa@20250827' //hm#qd@23!
+    //   }
+    // })
+    console.log()
   }
 };
 </script>

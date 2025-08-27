@@ -97,13 +97,11 @@ const state = {
 
 const actions = {
 
-  login(context,data){
+  async login(context,data){
     console.log('登录',data)
     //todo: 调用登录接口
-    // if(!localStorage.getItem('userToken')){
-    // if(!getToken('userToken')){
-    //   console.log('调用登录接口')
-      context.commit('setUserToken', '123456')
+    let resData = await login(data)
+    context.commit('setUserToken', resData)
   }
 }
 
