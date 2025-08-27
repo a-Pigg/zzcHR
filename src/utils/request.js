@@ -89,7 +89,7 @@ import { config } from '@vue/test-utils'
 
 //创建一个新的 axios 实例
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.VUE_APP_BASE_API,
   timeout: 30000
 })
 
@@ -112,9 +112,9 @@ service.interceptors.response.use((response) => {
 
   //axios默认包裹了一层data
   const { data, message, success } = response.data
-  if(success){
+  if (success) {
     return data
-  }else{
+  } else {
     Message({ type: 'error', message: message })
     return Promise.reject(new Error(message))
   }

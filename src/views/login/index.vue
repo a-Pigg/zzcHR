@@ -115,6 +115,7 @@ export default {
     // }).then(res=>{
     //   console.log(res)
     // })
+    alert(process.env.NODE_ENV)
     service({
       url:'/sys/login',
       method:'post',
