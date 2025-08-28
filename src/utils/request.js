@@ -3,6 +3,7 @@ import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import { config } from '@vue/test-utils'
+import router from '@/router'
 
 //#region 模板的二次封装
 // // create an axios instance
@@ -119,7 +120,19 @@ service.interceptors.response.use((response) => {
     return Promise.reject(new Error(message))
   }
 
-}, (error) => {
+}, async (error) => {
+  debugger
+  if (error.response.status === 401) {
+    Message({
+      message: 'token超时了',
+      type: 'warning'
+    })
+    //说明token超时了
+    await store.dispatch('user/logout') //退出登录
+    //主动跳到登录页
+    router.push('/login')
+    return Promise.reject(error)
+  }
   //error.message
   Message({
     message: '响应error——' + error.message,

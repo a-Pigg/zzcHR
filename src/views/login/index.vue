@@ -67,7 +67,7 @@ export default {
     return {
       ruleForm: {
         mobile: process.env.NODE_ENV === 'development' ? "13800000002" : '',
-        password: process.env.NODE_ENV === 'development' ? 'itHeiMa@20250827' : '',  //'itHeiMa@' + dayjs(new Date()).format('YYYYMMDD')
+        password: process.env.NODE_ENV === 'development' ? 'itHeiMa@20250828' : '',  //'itHeiMa@' + dayjs(new Date()).format('YYYYMMDD')
         isAgree : process.env.NODE_ENV === 'development',
       },
       

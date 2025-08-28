@@ -98,6 +98,7 @@ const state = {
 
 const actions = {
 
+  //登录
   async login(context, data) {
     console.log('登录', data)
     //todo: 调用登录接口
@@ -105,10 +106,17 @@ const actions = {
     context.commit('setUserToken', resData)
   },
 
+  //获取用户信息
   async getUserInfo(context, data) {
     let resData = await getUserInfoAPI()
     console.log('获取用户资料', resData)
     context.commit('setUserInfo', resData)
+  },
+
+  //退出登录
+  logout(context, data){
+    context.commit('removeUserToken') //删除token
+    context.commit('setUserInfo', {}) //设置用户信息为空对象
   }
 }
 
@@ -119,10 +127,12 @@ const mutations = {
     // localStorage.setItem('userToken', token)
     setToken(token)
   },
+
   removeUserToken(state, token) {
     state.token = null
     removeToken()
   },
+
   setUserInfo(state, data) {
     state.userInfo = data
   },
