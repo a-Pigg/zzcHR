@@ -42,3 +42,12 @@ export function getUserInfoAPI() {
     method: 'get',
   })
 }
+
+//修改用户密码
+export function updatePassAPI(data) {
+  return request({
+    url: '/sys/user/updatePass',
+    method: 'put',
+    data
+  })
+}
