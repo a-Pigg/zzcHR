@@ -96,9 +96,9 @@ router.beforeEach(async (to, from, next) => {
     }else{
       //判断是否获取了用户资料
       let userId = store.getters.userId
-      console.log('ddddddddddddddddddddddddd',userId)
       //没有获取到用户资料
       if(!userId){
+        
         await store.dispatch('user/getUserInfo')
       }
       next()

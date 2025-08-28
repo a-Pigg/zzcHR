@@ -19,7 +19,8 @@ export default {
     ])
   },
   created(){
-
+    // console.log('ddddddddddddddddddddddddd',this.$store.state.user.token)
+    // console.log('ddddddddddddddddddddddddd____',this.$store.state.user.userInfo.userId)
   }
 }
 </script>
