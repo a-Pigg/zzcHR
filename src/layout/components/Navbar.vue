@@ -12,7 +12,9 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- 头像 -->
-          <img :src="avatar" class="user-avatar" />
+          <img v-if="avatar" :src="avatar" class="user-avatar" />
+          <!-- name.slice(0,1) -->
+          <span v-else class="username">{{ name?.charAt(0) }}</span>
           <!-- 用户名称 -->
           <span class="name">{{ name }}</span>
           <i class="el-icon-setting"></i>
@@ -129,6 +131,17 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+
+        .username{
+          background-color: #04c9b1;
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          border-radius: 50%;
+          color: white;
+          margin-right: 4px;
+        }
 
         .name {
           margin-right: 10px;
